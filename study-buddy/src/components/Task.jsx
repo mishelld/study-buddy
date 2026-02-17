@@ -1,12 +1,4 @@
-import {
-  Card,
-  Text,
-  Group,
-  Badge,
-  Button,
-  Flex,
-  Checkbox,
-} from "@mantine/core";
+import { Card, Text, Group, Flex, Checkbox } from "@mantine/core";
 import { IconTrash, IconEdit, IconClock } from "@tabler/icons-react";
 import { ActionIcon } from "@mantine/core";
 
