@@ -43,7 +43,6 @@ function AuthProvider({ onAuthReady, children }) {
         return;
       }
       setUser(data.user);
-      console.log("check");
       navigate("/tasks");
     } catch (error) {
       setError(error.message);

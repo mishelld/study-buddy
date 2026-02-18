@@ -4,10 +4,12 @@ import { IconAdFilled } from "@tabler/icons-react";
 import { AuthContext } from "../providers/AuthProvider";
 import { useEffect, useState, useContext } from "react";
 import { supabase } from "../data/supabaseClient";
+import AddTask from "../components/AddTask";
 
 function TasksPage() {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const { user } = useContext(AuthContext);
   const fetchTasks = async () => {
@@ -33,7 +35,15 @@ function TasksPage() {
     <>
       <Group justify="space-between" mt="md" mb="xs">
         <Text>Study Tasks</Text>
-        <Button>+ Add Task</Button>
+        <Button onClick={() => setModalOpen(true)}>+ Add Task</Button>
+        <AddTask
+          opened={modalOpen}
+          onClose={() => setModalOpen(false)}
+          onAdd={(task) => {
+            console.log("New Task:", task);
+            setModalOpen(false);
+          }}
+        />
       </Group>
       {tasks.length === 0 ? (
         <Text>No tasks found.</Text>
