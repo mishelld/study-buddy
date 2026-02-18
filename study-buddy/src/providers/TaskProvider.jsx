@@ -105,6 +105,29 @@ function TaskProvider({ children }) {
       setError(err.message);
     }
   };
+  const deleteTask = async (taskId) => {
+    if (!user) return;
+
+    setError(null);
+
+    const removedTask = tasks.find((task) => task.task_id === taskId);
+    setTasks((prev) => prev.filter((task) => task.task_id !== taskId));
+
+    try {
+      const { error: supabaseError } = await supabase
+        .from("Tasks")
+        .delete()
+        .eq("task_id", taskId);
+
+      if (supabaseError) {
+        setTasks((prev) => [...prev, removedTask]);
+        setError(supabaseError.message);
+      }
+    } catch (err) {
+      setTasks((prev) => [...prev, removedTask]);
+      setError(err.message);
+    }
+  };
 
   useEffect(() => {
     fetchTasks();
@@ -120,6 +143,7 @@ function TaskProvider({ children }) {
           fetchTasks,
           toggleTaskCompletion,
           addTask,
+          deleteTask,
         }}
       >
         {children}

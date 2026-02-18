@@ -7,7 +7,7 @@ import { TaskContext } from "../providers/TaskProvider";
 import { useContext, useState } from "react";
 function Task({ key, task }) {
   const [showTimer, setShowTimer] = useState(false);
-  const { toggleTaskCompletion, error } = useContext(TaskContext);
+  const { toggleTaskCompletion, deleteTask, error } = useContext(TaskContext);
   if (error) return <ErrorPage />;
 
   return (
@@ -32,7 +32,7 @@ function Task({ key, task }) {
           <ActionIcon variant="subtle">
             <IconEdit size={18} />
           </ActionIcon>
-          <ActionIcon variant="subtle">
+          <ActionIcon variant="subtle" onClick={() => deleteTask(task.task_id)}>
             <IconTrash size={18} />
           </ActionIcon>
           {/* <ActionIcon variant="subtle">
