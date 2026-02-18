@@ -3,11 +3,16 @@ import { Text, Group, Button } from "@mantine/core";
 import AddTask from "../components/AddTask";
 import { TaskContext } from "../providers/TaskProvider";
 import { useContext, useState } from "react";
+import LoadingPage from "./LoadingPage";
+import ErrorPage from "./ErrorPage";
 
 function TasksPage() {
   const [modalOpen, setModalOpen] = useState(false);
 
-  const { tasks } = useContext(TaskContext);
+  const { tasks, loading, error } = useContext(TaskContext);
+
+  if (loading) return <LoadingPage />;
+  if (error) return <ErrorPage />;
 
   return (
     <>
@@ -16,6 +21,7 @@ function TasksPage() {
         <Button onClick={() => setModalOpen(true)}>+ Add Task</Button>
         <AddTask opened={modalOpen} onClose={() => setModalOpen(false)} />
       </Group>
+
       {tasks.length === 0 ? (
         <Text>No tasks found.</Text>
       ) : (
