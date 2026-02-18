@@ -43,8 +43,8 @@ function AuthProvider({ onAuthReady, children }) {
         return;
       }
       setUser(data.user);
-      setUsername(email);
-      navigate("/Tweeter-2.0-Project/home");
+      console.log("check");
+      navigate("/tasks");
     } catch (error) {
       setError(error.message);
     } finally {

@@ -12,8 +12,7 @@ function App() {
         <AuthProvider onAuthReady={() => {}}>
           <Routes>
             <Route path="/" element={<LoginPage />} />
-
-            {/* <Route path="/tasks" element={<TasksPage />} /> */}
+            <Route path="/tasks" element={<TasksPage />} />
           </Routes>
         </AuthProvider>
       </MantineProvider>
