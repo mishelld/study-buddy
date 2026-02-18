@@ -56,7 +56,7 @@ function TaskProvider({ children }) {
         .eq("task_id", taskId);
 
       if (supabaseError) {
-        throw supabaseError;
+        setError(supabaseError.message);
       }
     } catch (err) {
       setTasks((prev) =>
@@ -67,6 +67,42 @@ function TaskProvider({ children }) {
       setError(err.message);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const addTask = async ({ title, priority, due_date }) => {
+    if (!user) return;
+
+    setError(null);
+
+    const newTask = {
+      title,
+      priority: [priority],
+      due_date,
+      user_id: user.id,
+      timer_duration: 0,
+      completed: false,
+    };
+
+    setTasks((prev) => [...prev, newTask]);
+
+    try {
+      const { data, error: supabaseError } = await supabase
+        .from("Tasks")
+        .insert([newTask])
+        .select();
+
+      if (supabaseError) {
+        setTasks((prev) => prev.filter((task) => task !== newTask));
+        setError(supabaseError.message);
+        return;
+      }
+      setTasks((prev) =>
+        prev.map((task) => (task === newTask ? data[0] : task)),
+      );
+    } catch (err) {
+      setTasks((prev) => prev.filter((task) => task !== newTask));
+      setError(err.message);
     }
   };
 
@@ -83,6 +119,7 @@ function TaskProvider({ children }) {
           tasks,
           fetchTasks,
           toggleTaskCompletion,
+          addTask,
         }}
       >
         {children}

@@ -2,38 +2,19 @@ import { Modal, TextInput, Select, Group, Button } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { useState, useContext } from "react";
 import { AuthContext } from "../providers/AuthProvider";
-import { supabase } from "../data/supabaseClient";
-
-function AddTask({ opened, onClose, onAdd }) {
+import { TaskContext } from "../providers/TaskProvider";
+function AddTask({ opened, onClose }) {
   const [taskName, setTaskName] = useState("");
   const [priority, setPriority] = useState("");
   const [dueDate, setDueDate] = useState(null);
-  const { user } = useContext(AuthContext);
+  const { addTask } = useContext(TaskContext);
 
-  const handleSubmit = async () => {
-    if (!taskName || !priority || !user) return;
-    let isoDueDate = null;
-    if (dueDate) {
-      if (dueDate instanceof Date) {
-        isoDueDate = dueDate.toISOString();
-      } else {
-        isoDueDate = new Date(dueDate).toISOString();
-      }
-    }
-
-    const newTask = {
+  const handleAdd = async () => {
+    await addTask({
       title: taskName,
-      priority: [priority],
-      due_date: isoDueDate,
-      user_id: user.id,
-      timer_duration: 0,
-    };
-
-    const { data, error } = await supabase.from("Tasks").insert([newTask]);
-
-    if (error) {
-      return;
-    }
+      priority,
+      due_date: dueDate,
+    });
     setTaskName("");
     setPriority("");
     setDueDate(null);
@@ -71,7 +52,7 @@ function AddTask({ opened, onClose, onAdd }) {
         <Button variant="default" onClick={onClose}>
           Cancel
         </Button>
-        <Button onClick={handleSubmit}>Add Task</Button>
+        <Button onClick={handleAdd}>Add Task</Button>
       </Group>
     </Modal>
   );
