@@ -129,6 +129,39 @@ function TaskProvider({ children }) {
     }
   };
 
+  const updateTask = async (taskId, { title, priority, due_date }) => {
+    setError(null);
+
+    const originalTask = tasks.find((t) => t.task_id === taskId);
+
+    setTasks((prev) =>
+      prev.map((t) =>
+        t.task_id === taskId
+          ? { ...t, title, priority: [priority], due_date }
+          : t,
+      ),
+    );
+
+    try {
+      const { error: supabaseError } = await supabase
+        .from("Tasks")
+        .update({ title, priority: [priority], due_date })
+        .eq("task_id", taskId);
+
+      if (supabaseError) {
+        setTasks((prev) =>
+          prev.map((t) => (t.task_id === taskId ? originalTask : t)),
+        );
+        setError(supabaseError.message);
+      }
+    } catch (err) {
+      setTasks((prev) =>
+        prev.map((t) => (t.task_id === taskId ? originalTask : t)),
+      );
+      setError(err.message);
+    }
+  };
+
   useEffect(() => {
     fetchTasks();
   }, [user]);
@@ -144,6 +177,7 @@ function TaskProvider({ children }) {
           toggleTaskCompletion,
           addTask,
           deleteTask,
+          updateTask,
         }}
       >
         {children}
