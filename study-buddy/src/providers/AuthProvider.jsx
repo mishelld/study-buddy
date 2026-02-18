@@ -59,7 +59,7 @@ function AuthProvider({ onAuthReady, children }) {
         setError(error.message);
         return;
       }
-      navigate("/Tweeter-2.0-Project/");
+      navigate("/");
     } catch (error) {
       setError(error.message);
     } finally {
