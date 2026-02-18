@@ -12,14 +12,14 @@ function Task() {
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Flex gap="md">
         <Group justify="space-between" mt="md" mb="xs">
-          <Checkbox defaultChecked />
+          <Checkbox checked={completed} onChange={handleToggle} />
         </Group>
         <Group justify="space-between" mt="md" mb="xs">
           <Flex direction="column">
-            <Text fw={500}>Complete calculus homework</Text>
+            <Text fw={500}>{task.title}</Text>
             <Group justify="space-between" mt="md" mb="xs">
-              <Text fw={500}>date</Text>
-              <Text fw={500}>priority</Text>
+              <Text fw={500}>{task.due_date}</Text>
+              <Text fw={500}>{task.priority}</Text>
             </Group>
           </Flex>
         </Group>
