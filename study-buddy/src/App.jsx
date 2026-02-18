@@ -4,7 +4,7 @@ import { MantineProvider } from "@mantine/core";
 import TasksPage from "./pages/TasksPage";
 import LoginPage from "./pages/LoginPage";
 import AuthProvider from "./providers/AuthProvider";
-
+import "./app.css";
 function App() {
   return (
     <BrowserRouter>
