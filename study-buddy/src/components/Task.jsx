@@ -15,25 +15,23 @@ function Task({ key, task }) {
   return (
     <>
       <Card shadow="sm" padding="lg" radius="md" withBorder>
-        <Flex gap="md">
-          <Group justify="space-between" mt="md" mb="xs">
+        <Flex justify="space-between" align="center">
+          <Flex align="center" gap="md">
             <Checkbox
               checked={task.completed}
               onChange={() =>
                 toggleTaskCompletion(task.task_id, task.completed)
               }
             />
-          </Group>
-          <Group justify="space-between" mt="md" mb="xs">
-            <Flex direction="column">
+            <Flex direction="column" gap="xs">
               <Text fw={500}>{task.title}</Text>
               <Group justify="space-between" mt="md" mb="xs">
                 <Text fw={500}>{task.due_date}</Text>
                 <Text fw={500}>{task.priority}</Text>
               </Group>
             </Flex>
-          </Group>
-          <Group justify="flex-end" mt="md" mb="xs">
+          </Flex>
+          <Group spacing="xs">
             <ActionIcon variant="subtle" onClick={() => setUpdateOpen(true)}>
               <IconEdit size={18} />
             </ActionIcon>
@@ -43,9 +41,6 @@ function Task({ key, task }) {
             >
               <IconTrash size={18} />
             </ActionIcon>
-            {/* <ActionIcon variant="subtle">
-            <IconClock size={18} />
-          </ActionIcon> */}
             <ActionIcon
               variant="subtle"
               onClick={() => setShowTimer((prev) => !prev)}
