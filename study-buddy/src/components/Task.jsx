@@ -1,13 +1,33 @@
 import { Card, Text, Group, Flex, Checkbox } from "@mantine/core";
 import { IconTrash, IconEdit, IconClock } from "@tabler/icons-react";
 import { ActionIcon } from "@mantine/core";
+import { supabase } from "../data/supabaseClient";
 
-function Task({ key, task }) {
+import { useState } from "react";
+function Task({ key, task, onTaskUpdated }) {
+  const [completed, setCompleted] = useState(task.completed);
+  const handleToggle = async () => {
+    const newStatus = !completed;
+    setCompleted(newStatus);
+
+    const { error } = await supabase
+      .from("Tasks")
+      .update({ completed: newStatus })
+      .eq("task_id", task.task_id);
+
+    if (error) {
+      console.error("Error updating task:", error);
+      setCompleted(!newStatus);
+    } else {
+      if (onTaskUpdated) onTaskUpdated();
+    }
+  };
+
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Flex gap="md">
         <Group justify="space-between" mt="md" mb="xs">
-          <Checkbox defaultChecked />
+          <Checkbox checked={completed} onChange={handleToggle} />
         </Group>
         <Group justify="space-between" mt="md" mb="xs">
           <Flex direction="column">
