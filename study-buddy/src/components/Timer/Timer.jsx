@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 
 
 function formatTime(seconds) {
+
+
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
 
@@ -13,9 +15,28 @@ function formatTime(seconds) {
 }
 
 export default function Timer() {
-    const [timeLeft, setTimeLeft] = useState(25 * 60); // 25 minutes is pomedro classic timer length
+    const initialSeconds = 25 * 60 // 25 minutes is pomedro classic timer length
+
+    const [timeLeft, setTimeLeft] = useState(initialSeconds);
+    const [isRunning, setIsRunning] = useState(false);
+
+    function start() {
+        setIsRunning(true);
+    }
+
+    function pause() {
+        setIsRunning(false);
+    }
+
+    function reset() {
+        setIsRunning(false);
+        setTimeLeft(initialSeconds);
+    };
+
 
     useEffect(() => {
+        if (!isRunning) return;
+
         const intervalId = setInterval(() => {
             setTimeLeft((prev) => {
                 if (prev <= 0) return 0;
@@ -24,13 +45,22 @@ export default function Timer() {
         }, 1000);
 
         return () => clearInterval(intervalId);
-    }, []);
+    }, [isRunning]);
 
     return (
         <div>
             <p style={{ fontWeight: "bold", fontSize: 24 }}>
                 {formatTime(timeLeft)}
             </p>
+            <div>
+                <button onClick={start} disabled={isRunning || timeLeft === 0}>
+                    Start
+                </button>
+                <button onClick={pause} disabled={!isRunning}>
+                    Pause
+                </button>
+                <button onClick={reset}>Reset</button>
+            </div>
         </div>
     );
 }
