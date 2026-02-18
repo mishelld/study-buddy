@@ -2,7 +2,7 @@ import { Card, Text, Group, Flex, Checkbox } from "@mantine/core";
 import { IconTrash, IconEdit, IconClock } from "@tabler/icons-react";
 import { ActionIcon } from "@mantine/core";
 
-function Task() {
+function Task({ key, task }) {
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Flex gap="md">
@@ -11,10 +11,10 @@ function Task() {
         </Group>
         <Group justify="space-between" mt="md" mb="xs">
           <Flex direction="column">
-            <Text fw={500}>Complete calculus homework</Text>
+            <Text fw={500}>{task.title}</Text>
             <Group justify="space-between" mt="md" mb="xs">
-              <Text fw={500}>date</Text>
-              <Text fw={500}>priority</Text>
+              <Text fw={500}>{task.due_date}</Text>
+              <Text fw={500}>{task.priority}</Text>
             </Group>
           </Flex>
         </Group>
