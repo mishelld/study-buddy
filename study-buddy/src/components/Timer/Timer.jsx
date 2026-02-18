@@ -19,6 +19,7 @@ export default function Timer() {
 
     const [timeLeft, setTimeLeft] = useState(initialSeconds);
     const [isRunning, setIsRunning] = useState(false);
+    const [last_started_at, setLastStartedAt] = useState(null)
 
     function start() {
         setIsRunning(true);
