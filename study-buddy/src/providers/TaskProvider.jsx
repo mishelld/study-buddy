@@ -10,17 +10,31 @@ function TaskProvider({ children }) {
   const { user } = useContext(AuthContext);
 
   const fetchTasks = async () => {
-    if (!user) return;
-    const { data, error } = await supabase
-      .from("Tasks")
-      .select("*")
-      .eq("user_id", user.id)
-      .order("due_date", { ascending: true });
+    setLoading(true);
+    setError(null);
 
-    if (error) {
-      console.error("Error fetching tasks:", error);
-    } else {
-      setTasks(data);
+    if (!user) {
+      setTasks([]);
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const { data, error: supabaseError } = await supabase
+        .from("Tasks")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("due_date", { ascending: true });
+
+      if (supabaseError) {
+        setError(supabaseError.message);
+      } else {
+        setTasks(data);
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
