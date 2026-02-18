@@ -38,6 +38,38 @@ function TaskProvider({ children }) {
     }
   };
 
+  const toggleTaskCompletion = async (taskId, currentValue) => {
+    setError(null);
+
+    const newStatus = !currentValue;
+
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.task_id === taskId ? { ...task, completed: newStatus } : task,
+      ),
+    );
+
+    try {
+      const { error: supabaseError } = await supabase
+        .from("Tasks")
+        .update({ completed: newStatus })
+        .eq("task_id", taskId);
+
+      if (supabaseError) {
+        throw supabaseError;
+      }
+    } catch (err) {
+      setTasks((prev) =>
+        prev.map((task) =>
+          task.task_id === taskId ? { ...task, completed: currentValue } : task,
+        ),
+      );
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchTasks();
   }, [user]);
@@ -50,6 +82,7 @@ function TaskProvider({ children }) {
           loading,
           tasks,
           fetchTasks,
+          toggleTaskCompletion,
         }}
       >
         {children}

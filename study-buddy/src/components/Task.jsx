@@ -7,31 +7,17 @@ import { TaskContext } from "../providers/TaskProvider";
 import { useContext, useState } from "react";
 function Task({ key, task }) {
   const [showTimer, setShowTimer] = useState(false);
-  const [completed, setCompleted] = useState(task.completed);
-  const { fetchTasks } = useContext(TaskContext);
-
-  const handleToggle = async () => {
-    const newStatus = !completed;
-    setCompleted(newStatus);
-
-    const { error } = await supabase
-      .from("Tasks")
-      .update({ completed: newStatus })
-      .eq("task_id", task.task_id);
-
-    if (error) {
-      console.error("Error updating task:", error);
-      setCompleted(!newStatus);
-    } else {
-      if (fetchTasks) fetchTasks();
-    }
-  };
+  const { toggleTaskCompletion, error } = useContext(TaskContext);
+  if (error) return <ErrorPage />;
 
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Flex gap="md">
         <Group justify="space-between" mt="md" mb="xs">
-          <Checkbox checked={completed} onChange={handleToggle} />
+          <Checkbox
+            checked={task.completed}
+            onChange={() => toggleTaskCompletion(task.task_id, task.completed)}
+          />
         </Group>
         <Group justify="space-between" mt="md" mb="xs">
           <Flex direction="column">
