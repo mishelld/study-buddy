@@ -1,20 +1,19 @@
-import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { MantineProvider } from "@mantine/core";
-import { DatePicker } from "@mantine/dates";
-
+import "@mantine/core/styles.css";
+import "@mantine/dates/styles.css";
 import TasksPage from "./pages/TasksPage";
 import LoginPage from "./pages/LoginPage";
 import AuthProvider from "./providers/AuthProvider";
-import AddTask from "./components/AddTask";
 import { DatesProvider } from "@mantine/dates";
 
 import "./app.css";
 function App() {
   return (
     <BrowserRouter>
-      <MantineProvider with GlobalStyles withNormalizeCSS>
+      <MantineProvider withGlobalStyles withNormalizeCSS>
         <DatesProvider>
+          {" "}
           <AuthProvider onAuthReady={() => {}}>
             <Routes>
               {/* <Route path="/" element={<AddTask />} /> */}

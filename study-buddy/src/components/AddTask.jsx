@@ -1,10 +1,11 @@
 import { Modal, TextInput, Select, Group, Button } from "@mantine/core";
+import { DatePickerInput } from "@mantine/dates";
 import { useState } from "react";
 
 function AddTask({ opened, onClose, onAdd }) {
   const [taskName, setTaskName] = useState("");
   const [priority, setPriority] = useState("");
-  const [dueDate, setDueDate] = useState("");
+  const [dueDate, setDueDate] = useState(null); // Date object
 
   const handleSubmit = () => {
     if (!taskName || !priority) return;
@@ -12,14 +13,14 @@ function AddTask({ opened, onClose, onAdd }) {
     const newTask = {
       name: taskName,
       priority,
-      dueDate: dueDate || null,
+      dueDate, // Date object
     };
 
     if (onAdd) onAdd(newTask);
 
     setTaskName("");
     setPriority("");
-    setDueDate("");
+    setDueDate(null);
     onClose();
   };
 
@@ -42,12 +43,13 @@ function AddTask({ opened, onClose, onAdd }) {
         mb="sm"
         required
       />
-      <TextInput
+      <DatePickerInput
         label="Due Date"
-        placeholder="Enter due date (optional)"
+        placeholder="dd/mm/yyyy"
         value={dueDate}
-        onChange={(e) => setDueDate(e.currentTarget.value)}
+        onChange={setDueDate}
         mb="sm"
+        required
       />
       <Group position="right" mt="md">
         <Button variant="default" onClick={onClose}>
