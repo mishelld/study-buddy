@@ -6,8 +6,8 @@ import TasksPage from "./pages/TasksPage";
 import LoginPage from "./pages/LoginPage";
 import AuthProvider from "./providers/AuthProvider";
 import { DatesProvider } from "@mantine/dates";
-
 import "./app.css";
+import TaskProvider from "./providers/TaskProvider";
 function App() {
   return (
     <BrowserRouter>
@@ -15,12 +15,14 @@ function App() {
         <DatesProvider>
           {" "}
           <AuthProvider onAuthReady={() => {}}>
-            <Routes>
-              {/* <Route path="/" element={<AddTask />} /> */}
+            <TaskProvider>
+              <Routes>
+                {/* <Route path="/" element={<AddTask />} /> */}
 
-              <Route path="/" element={<LoginPage />} />
-              <Route path="/tasks" element={<TasksPage />} />
-            </Routes>
+                <Route path="/" element={<LoginPage />} />
+                <Route path="/tasks" element={<TasksPage />} />
+              </Routes>
+            </TaskProvider>
           </AuthProvider>
         </DatesProvider>
       </MantineProvider>

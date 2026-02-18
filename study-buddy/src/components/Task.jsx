@@ -2,12 +2,14 @@ import { Card, Text, Group, Flex, Checkbox } from "@mantine/core";
 import { IconTrash, IconEdit, IconClock } from "@tabler/icons-react";
 import { ActionIcon } from "@mantine/core";
 import Timer from "./Timer/Timer";
-import { useState } from "react";
 import { supabase } from "../data/supabaseClient";
-
-function Task({ key, task, onTaskUpdated }) {
+import { TaskContext } from "../providers/TaskProvider";
+import { useContext, useState } from "react";
+function Task({ key, task }) {
   const [showTimer, setShowTimer] = useState(false);
   const [completed, setCompleted] = useState(task.completed);
+  const { fetchTasks } = useContext(TaskContext);
+
   const handleToggle = async () => {
     const newStatus = !completed;
     setCompleted(newStatus);
@@ -21,7 +23,7 @@ function Task({ key, task, onTaskUpdated }) {
       console.error("Error updating task:", error);
       setCompleted(!newStatus);
     } else {
-      if (onTaskUpdated) onTaskUpdated();
+      if (fetchTasks) fetchTasks();
     }
   };
 

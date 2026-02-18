@@ -1,56 +1,25 @@
 import Task from "../components/Task";
-import { Card, Text, Group, Flex, Checkbox, Button } from "@mantine/core";
-import { IconAdFilled } from "@tabler/icons-react";
-import { AuthContext } from "../providers/AuthProvider";
-import { useEffect, useState, useContext } from "react";
-import { supabase } from "../data/supabaseClient";
+import { Text, Group, Button } from "@mantine/core";
 import AddTask from "../components/AddTask";
+import { TaskContext } from "../providers/TaskProvider";
+import { useContext, useState } from "react";
 
 function TasksPage() {
-  const [tasks, setTasks] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
 
-  const { user } = useContext(AuthContext);
-  const fetchTasks = async () => {
-    if (!user) return;
-    const { data, error } = await supabase
-      .from("Tasks")
-      .select("*")
-      .eq("user_id", user.id)
-      .order("due_date", { ascending: true });
-
-    if (error) {
-      console.error("Error fetching tasks:", error);
-    } else {
-      setTasks(data);
-    }
-  };
-
-  useEffect(() => {
-    fetchTasks();
-  }, [user]);
+  const { tasks } = useContext(TaskContext);
 
   return (
     <>
       <Group justify="space-between" mt="md" mb="xs">
         <Text>Study Tasks</Text>
         <Button onClick={() => setModalOpen(true)}>+ Add Task</Button>
-        <AddTask
-          opened={modalOpen}
-          onClose={() => setModalOpen(false)}
-          onAdd={(task) => {
-            console.log("New Task:", task);
-            setModalOpen(false);
-          }}
-        />
+        <AddTask opened={modalOpen} onClose={() => setModalOpen(false)} />
       </Group>
       {tasks.length === 0 ? (
         <Text>No tasks found.</Text>
       ) : (
-        tasks.map((task) => (
-          <Task key={task.task_id} task={task} onTaskUpdated={fetchTasks} />
-        ))
+        tasks.map((task) => <Task key={task.task_id} task={task} />)
       )}
     </>
   );
