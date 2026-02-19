@@ -6,7 +6,7 @@ import { supabase } from "../data/supabaseClient";
 import { TaskContext } from "../providers/TaskProvider";
 import { useContext, useState } from "react";
 import UpdateTask from "./UpdateTask";
-function Task({ key, task }) {
+function Task({ task }) {
   const [updateOpen, setUpdateOpen] = useState(false);
   const [showTimer, setShowTimer] = useState(false);
   const { toggleTaskCompletion, deleteTask, error } = useContext(TaskContext);
