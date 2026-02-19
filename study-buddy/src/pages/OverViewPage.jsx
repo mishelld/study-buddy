@@ -43,6 +43,10 @@ export default function OverViewPage() {
         0
     );
 
+    const upcoming = [...allTasks]
+        .filter(t => t.due_date)
+        .sort((a, b) => new Date(a.due_date) - new Date(b.due_date))
+        .slice(0, 3)
 
     return (
         <Stack gap="md">
