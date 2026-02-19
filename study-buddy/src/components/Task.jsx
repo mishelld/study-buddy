@@ -42,8 +42,11 @@ function Task({ key, task }) {
               >
                 {task.title}
               </Text>
-              <Group justify="space-between" mt="md" mb="xs">
-                <Text fw={500}>{task.due_date}</Text>
+              <Flex
+                direction={{ base: "column-reverse", sm: "row" }}
+                justify="space-between"
+                gap="xs"
+              >
                 <Badge
                   color={
                     task.completed
@@ -60,12 +63,16 @@ function Task({ key, task }) {
                   {task.priority}
                 </Badge>
                 <Text size="sm" c="dimmed">
+                  Due: {task.due_date}
+                </Text>
+
+                <Text size="sm" c="dimmed">
                   Studied: {Math.floor(task.timer_duration / 60 || 0)} min
                 </Text>
-              </Group>
+              </Flex>
             </Flex>
           </Flex>
-          <Group spacing="xs">
+          <Flex direction={{ base: "column", sm: "row" }} gap="xs">
             <ActionIcon
               variant="subtle"
               color="black"
@@ -90,7 +97,7 @@ function Task({ key, task }) {
             >
               <IconClock size={18} />
             </ActionIcon>
-          </Group>
+          </Flex>
         </Flex>
         {showTimer && <Timer taskId={task.task_id} />}
       </Card>
