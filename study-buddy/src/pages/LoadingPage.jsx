@@ -7,9 +7,10 @@ function LoadingPage() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        height: "100vh",
       }}
     >
-      <Loader color="blue" size="xl" />{" "}
+      <Loader color="rgb(194, 163, 255)" size="xl" />{" "}
     </div>
   );
 }
