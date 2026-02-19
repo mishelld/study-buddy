@@ -12,13 +12,15 @@ import "./app.css";
 import TaskProvider from "./providers/TaskProvider";
 import ScheduePage from "./pages/ScheduePage";
 import Navbar from "./components/Navbar";
+import OverViewPage from "./pages/OverViewPage";
+
 function App() {
   return (
     <BrowserRouter>
-      <MantineProvider withGlobalStyles withNormalizeCSS>
+      <MantineProvider withGlobalStyles wit hNormalizeCSS>
         <DatesProvider>
           {" "}
-          <AuthProvider onAuthReady={() => {}}>
+          <AuthProvider onAuthReady={() => { }}>
             <TaskProvider>
               <Routes>
                 <Route path="/" element={<LoginPage />} />
@@ -38,6 +40,15 @@ function App() {
                     <>
                       <Navbar />
                       <ScheduePage />
+                    </>
+                  }
+                />
+                <Route
+                  path="/overview"
+                  element={
+                    <>
+                      <Navbar />
+                      <OverViewPage />
                     </>
                   }
                 />

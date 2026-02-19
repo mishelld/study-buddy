@@ -9,7 +9,10 @@ import classes from "./HeaderSimple.module.css";
 const links = [
   { link: "/tasks", label: "Tasks" },
   { link: "/Schedue", label: "Schedule" },
+  { link: "/overview", label: "Overview" }
 ];
+
+
 
 function Navbar() {
   const { handleLogout } = useContext(AuthContext);
