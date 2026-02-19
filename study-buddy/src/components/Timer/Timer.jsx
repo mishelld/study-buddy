@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { TaskContext } from "../../providers/TaskProvider";
 
-import { Card, Text, Group, Button, Progress } from "@mantine/core";
+import { Card, Text, Group, Button, Progress, Flex } from "@mantine/core";
 
 function formatTime(seconds) {
   const mins = Math.floor(seconds / 60);
@@ -91,7 +91,7 @@ export default function Timer({ taskId }) {
         {formatTime(timeLeft)}
       </Text>
 
-      <Group position="apart">
+      <Flex justify="center" align="center" gap="sm">
         <Button
           color="black"
           onClick={start}
@@ -105,7 +105,7 @@ export default function Timer({ taskId }) {
         <Button variant="outline" color="gray" onClick={reset}>
           Reset
         </Button>
-      </Group>
+      </Flex>
     </Card>
   );
 }

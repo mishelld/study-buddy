@@ -27,9 +27,7 @@ function TasksPage() {
       {tasks.length === 0 ? (
         <Text>No tasks found.</Text>
       ) : (
-        tasks.map((task) => (
-          <Task key={task.task_id} task={task} taskId={task.task_id} />
-        ))
+        tasks.map((task) => <Task key={task.task_id} task={task} />)
       )}
     </>
   );
