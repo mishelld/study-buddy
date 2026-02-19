@@ -32,7 +32,7 @@
   }
 
   [data-mantine-color-scheme] &[data-active] {
-    background-color: rgb(194, 163, 255);
+    background-color: rgb(0, 0, 0);
     color: var(--mantine-color-white);
   }
 }
