@@ -75,21 +75,21 @@ export default function OverViewPage() {
             <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
 
                 <Card withBorder radius="md" p="md">
-                    <IconCheck size={30} />
+                    <IconCheck size={30} color="#2f9e44" />
                     <Text c="dimmed" size="sm">Tasks Completed</Text>
                     <Text fw={700} size="xl">{completedTasks}/{numOfAllTasks}</Text>
                     <Progress value={completedTasksPortion} mt="sm" />
                 </Card>
 
                 <Card withBorder radius="md" p="md">
-                    <IconClock size={30} />
+                    <IconClock size={30} bg="#E7F5FF" color="#1C7ED6" />
                     <Text c="dimmed" size="sm">Time Studied</Text>
                     <Text fw={700} size="xl">{formatTotalStudyTime(totalStudySeconds)}</Text>
                     <Text c="dimmed" size="xs">Total from task timers</Text>
                 </Card>
 
                 <Card withBorder radius="md" p="md">
-                    <IconTarget size={30} />
+                    <IconTarget size={30} bg="#F3F0FF" color="#7048E8" />
                     <Title order={4} mb="sm">Upcoming Deadlines</Title>
                     {upcoming.length === 0
                         ? <Text c="dimmed">No deadlines yet.</Text>
