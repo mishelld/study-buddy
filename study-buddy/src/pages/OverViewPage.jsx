@@ -82,6 +82,24 @@ export default function OverViewPage() {
 
                 <Card withBorder radius="md" p="md">
                     <Title order={4} mb="sm">Upcoming Deadlines</Title>
+                    {upcoming.length === 0
+                        ? <Text c="dimmed">No deadlines yet.</Text>
+                        : (<Stack gap="sm">
+                            {upcoming.map((t) => (
+                                <Card key={t.task_id} withBorder radius="md" p="sm">
+                                    <Group justify="space-between" align="flex-start">
+                                        <div>
+                                            <Text fw={600}>{t.title}</Text>
+                                            <Text size="sm" c="dimmed">Due: {t.due_date}</Text>
+                                        </div>
+
+                                        <Text fw={700} c={t.daysLeft < 0 ? "red" : "dimmed"}>
+                                            {t.daysLeft} days
+                                        </Text>
+                                    </Group>
+                                </Card>
+                            ))}
+                        </Stack>)}
 
                 </Card>
             </SimpleGrid>
