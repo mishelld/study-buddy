@@ -30,8 +30,9 @@ function Task({ key, task }) {
               onChange={() =>
                 toggleTaskCompletion(task.task_id, task.completed)
               }
+              color="lime.4"
             />
-            <Flex direction="column" gap="xs">
+            <Flex direction="column">
               <Text
                 fw={500}
                 style={{
