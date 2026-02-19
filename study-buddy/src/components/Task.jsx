@@ -1,4 +1,4 @@
-import { Card, Text, Group, Flex, Checkbox } from "@mantine/core";
+import { Card, Text, Group, Flex, Checkbox, Badge } from "@mantine/core";
 import { IconTrash, IconEdit, IconClock } from "@tabler/icons-react";
 import { ActionIcon } from "@mantine/core";
 import Timer from "./Timer/Timer";
@@ -27,11 +27,23 @@ function Task({ key, task }) {
               <Text fw={500}>{task.title}</Text>
               <Group justify="space-between" mt="md" mb="xs">
                 <Text fw={500}>{task.due_date}</Text>
-                <Text fw={500}>{task.priority}</Text>
+                <Badge
+                  color={
+                    task.priority[0] === "High"
+                      ? "red"
+                      : task.priority[0] === "Medium"
+                        ? "yellow"
+                        : "green"
+                  }
+                  variant="filled"
+                  radius="sm"
+                >
+                  {console.log(task.priority)}
+                  {task.priority}
+                </Badge>
                 <Text size="sm" c="dimmed">
-                  Studied: {Math.floor((task.timer_duration / 60 || 0))} min
+                  Studied: {Math.floor(task.timer_duration / 60 || 0)} min
                 </Text>
-
               </Group>
             </Flex>
           </Flex>
