@@ -14,7 +14,15 @@ function Task({ key, task }) {
 
   return (
     <>
-      <Card shadow="sm" padding="lg" radius="md" withBorder>
+      <Card
+        shadow="sm"
+        padding="lg"
+        radius="md"
+        withBorder
+        style={{
+          backgroundColor: task.completed ? "#f5f5f5" : "",
+        }}
+      >
         <Flex justify="space-between" align="center">
           <Flex align="center" gap="md">
             <Checkbox
@@ -24,21 +32,30 @@ function Task({ key, task }) {
               }
             />
             <Flex direction="column" gap="xs">
-              <Text fw={500}>{task.title}</Text>
+              <Text
+                fw={500}
+                style={{
+                  textDecoration: task.completed ? "line-through" : "none",
+                  color: task.completed ? "gray" : "",
+                }}
+              >
+                {task.title}
+              </Text>
               <Group justify="space-between" mt="md" mb="xs">
                 <Text fw={500}>{task.due_date}</Text>
                 <Badge
                   color={
-                    task.priority[0] === "High"
-                      ? "red"
-                      : task.priority[0] === "Medium"
-                        ? "yellow"
-                        : "green"
+                    task.completed
+                      ? "gray"
+                      : task.priority[0] === "High"
+                        ? "red"
+                        : task.priority[0] === "Medium"
+                          ? "yellow"
+                          : "green"
                   }
                   variant="filled"
                   radius="sm"
                 >
-                  {console.log(task.priority)}
                   {task.priority}
                 </Badge>
                 <Text size="sm" c="dimmed">
@@ -48,18 +65,24 @@ function Task({ key, task }) {
             </Flex>
           </Flex>
           <Group spacing="xs">
-            <ActionIcon variant="subtle" onClick={() => setUpdateOpen(true)}>
+            <ActionIcon
+              variant="subtle"
+              onClick={() => setUpdateOpen(true)}
+              disabled={task.completed}
+            >
               <IconEdit size={18} />
             </ActionIcon>
             <ActionIcon
               variant="subtle"
               onClick={() => deleteTask(task.task_id)}
+              disabled={task.completed}
             >
               <IconTrash size={18} />
             </ActionIcon>
             <ActionIcon
               variant="subtle"
               onClick={() => setShowTimer((prev) => !prev)}
+              disabled={task.completed}
             >
               <IconClock size={18} />
             </ActionIcon>
