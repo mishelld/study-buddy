@@ -23,6 +23,12 @@ function TaskProvider({ children }) {
     "#36CFC9",
   ];
 
+  const sortTasks = (tasksArray) => {
+    return [...tasksArray].sort(
+      (a, b) => new Date(a.due_date) - new Date(b.due_date),
+    );
+  };
+
   const fetchTasks = async () => {
     setLoading(true);
     setError(null);
@@ -105,7 +111,7 @@ function TaskProvider({ children }) {
       color: brightColors[Math.floor(Math.random() * brightColors.length)],
     };
 
-    setTasks((prev) => [...prev, newTask]);
+    setTasks((prev) => sortTasks([...prev, newTask]));
 
     try {
       const { data, error: supabaseError } = await supabase
@@ -156,10 +162,12 @@ function TaskProvider({ children }) {
     const originalTask = tasks.find((t) => t.task_id === taskId);
 
     setTasks((prev) =>
-      prev.map((t) =>
-        t.task_id === taskId
-          ? { ...t, title, priority: [priority], due_date }
-          : t,
+      sortTasks(
+        prev.map((t) =>
+          t.task_id === taskId
+            ? { ...t, title, priority: [priority], due_date }
+            : t,
+        ),
       ),
     );
 
