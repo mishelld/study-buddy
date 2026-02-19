@@ -1,4 +1,4 @@
-import { Card, Text, Group, Flex, Checkbox } from "@mantine/core";
+import { Card, Text, Group, Flex, Checkbox, Badge } from "@mantine/core";
 import { IconTrash, IconEdit, IconClock } from "@tabler/icons-react";
 import { ActionIcon } from "@mantine/core";
 import Timer from "./Timer/Timer";
@@ -14,7 +14,15 @@ function Task({ key, task }) {
 
   return (
     <>
-      <Card shadow="sm" padding="lg" radius="md" withBorder>
+      <Card
+        shadow="sm"
+        padding="lg"
+        radius="md"
+        withBorder
+        style={{
+          backgroundColor: task.completed ? "#f5f5f5" : "",
+        }}
+      >
         <Flex justify="space-between" align="center">
           <Flex align="center" gap="md">
             <Checkbox
@@ -22,32 +30,63 @@ function Task({ key, task }) {
               onChange={() =>
                 toggleTaskCompletion(task.task_id, task.completed)
               }
+              color="lime.4"
             />
-            <Flex direction="column" gap="xs">
-              <Text fw={500}>{task.title}</Text>
+            <Flex direction="column">
+              <Text
+                fw={500}
+                style={{
+                  textDecoration: task.completed ? "line-through" : "none",
+                  color: task.completed ? "gray" : "",
+                }}
+              >
+                {task.title}
+              </Text>
               <Group justify="space-between" mt="md" mb="xs">
                 <Text fw={500}>{task.due_date}</Text>
-                <Text fw={500}>{task.priority}</Text>
+                <Badge
+                  color={
+                    task.completed
+                      ? "gray"
+                      : task.priority[0] === "High"
+                        ? "red"
+                        : task.priority[0] === "Medium"
+                          ? "yellow"
+                          : "green"
+                  }
+                  variant="filled"
+                  radius="sm"
+                >
+                  {task.priority}
+                </Badge>
                 <Text size="sm" c="dimmed">
-                  Studied: {Math.floor((task.timer_duration / 60 || 0))} min
+                  Studied: {Math.floor(task.timer_duration / 60 || 0)} min
                 </Text>
-
               </Group>
             </Flex>
           </Flex>
           <Group spacing="xs">
-            <ActionIcon variant="subtle" onClick={() => setUpdateOpen(true)}>
+            <ActionIcon
+              variant="subtle"
+              color="black"
+              onClick={() => setUpdateOpen(true)}
+              disabled={task.completed}
+            >
               <IconEdit size={18} />
             </ActionIcon>
             <ActionIcon
               variant="subtle"
+              color="black"
               onClick={() => deleteTask(task.task_id)}
+              disabled={task.completed}
             >
               <IconTrash size={18} />
             </ActionIcon>
             <ActionIcon
               variant="subtle"
+              color="black"
               onClick={() => setShowTimer((prev) => !prev)}
+              disabled={task.completed}
             >
               <IconClock size={18} />
             </ActionIcon>

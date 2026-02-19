@@ -52,7 +52,9 @@ function AddTask({ opened, onClose }) {
         <Button variant="default" onClick={onClose}>
           Cancel
         </Button>
-        <Button onClick={handleAdd}>Add Task</Button>
+        <Button onClick={handleAdd} color="black">
+          Add Task
+        </Button>
       </Group>
     </Modal>
   );

@@ -8,6 +8,26 @@ function TaskProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [tasks, setTasks] = useState([]);
   const { user } = useContext(AuthContext);
+  const brightColors = [
+    "#FF4D4F",
+    "#FFA940",
+    "#9254DE",
+    "#1890FF",
+    "#52C41A",
+    "#13C2C2",
+    "#FA541C",
+    "#2F54EB",
+    "#EB2F96",
+    "#FAAD14",
+    "#722ED1",
+    "#36CFC9",
+  ];
+
+  const sortTasks = (tasksArray) => {
+    return [...tasksArray].sort(
+      (a, b) => new Date(a.due_date) - new Date(b.due_date),
+    );
+  };
 
   const fetchTasks = async () => {
     setLoading(true);
@@ -29,7 +49,13 @@ function TaskProvider({ children }) {
       if (supabaseError) {
         setError(supabaseError.message);
       } else {
-        setTasks(data);
+        const tasksWithColors = data.map((task) => ({
+          ...task,
+          color:
+            task.color ||
+            brightColors[Math.floor(Math.random() * brightColors.length)],
+        }));
+        setTasks(tasksWithColors);
       }
     } catch (err) {
       setError(err.message);
@@ -82,9 +108,10 @@ function TaskProvider({ children }) {
       user_id: user.id,
       timer_duration: 0,
       completed: false,
+      color: brightColors[Math.floor(Math.random() * brightColors.length)],
     };
 
-    setTasks((prev) => [...prev, newTask]);
+    setTasks((prev) => sortTasks([...prev, newTask]));
 
     try {
       const { data, error: supabaseError } = await supabase
@@ -135,10 +162,12 @@ function TaskProvider({ children }) {
     const originalTask = tasks.find((t) => t.task_id === taskId);
 
     setTasks((prev) =>
-      prev.map((t) =>
-        t.task_id === taskId
-          ? { ...t, title, priority: [priority], due_date }
-          : t,
+      sortTasks(
+        prev.map((t) =>
+          t.task_id === taskId
+            ? { ...t, title, priority: [priority], due_date }
+            : t,
+        ),
       ),
     );
 
@@ -170,10 +199,9 @@ function TaskProvider({ children }) {
       prev.map((t) =>
         t.task_id === taskId
           ? { ...t, timer_duration: (t.timer_duration || 0) + secondsToAdd }
-          : t
-      )
+          : t,
+      ),
     );
-
 
     try {
       const { data, error: readErr } = await supabase
@@ -199,7 +227,6 @@ function TaskProvider({ children }) {
     } catch (err) {
       setError(err.message);
     }
-
   };
 
   useEffect(() => {

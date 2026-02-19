@@ -18,9 +18,6 @@ function UpdateTask({ opened, onClose, task }) {
     onClose();
   };
   useEffect(() => {
-    console.log("task:", task);
-    console.log("task.priority:", task?.priority);
-
     if (task) {
       setTaskName(task.title || "");
       setPriority(task.priority?.[0] || "");
@@ -57,7 +54,9 @@ function UpdateTask({ opened, onClose, task }) {
         <Button variant="default" onClick={onClose}>
           Cancel
         </Button>
-        <Button onClick={handleUpdate}>Update Task</Button>
+        <Button onClick={handleUpdate} color="black">
+          Update Task
+        </Button>
       </Group>
     </Modal>
   );

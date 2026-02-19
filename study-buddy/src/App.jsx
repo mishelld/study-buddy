@@ -3,7 +3,7 @@ import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
 import "@mantine/schedule/styles.css";
-
+import MainLayout from "./pages/MainLayout";
 import TasksPage from "./pages/TasksPage";
 import LoginPage from "./pages/LoginPage";
 import AuthProvider from "./providers/AuthProvider";
@@ -28,8 +28,9 @@ function App() {
                   path="/tasks"
                   element={
                     <>
-                      <Navbar />
-                      <TasksPage />
+                      <MainLayout>
+                        <TasksPage />
+                      </MainLayout>
                     </>
                   }
                 />
@@ -38,8 +39,9 @@ function App() {
                   path="/schedue"
                   element={
                     <>
-                      <Navbar />
-                      <ScheduePage />
+                      <MainLayout>
+                        <ScheduePage />
+                      </MainLayout>
                     </>
                   }
                 />
