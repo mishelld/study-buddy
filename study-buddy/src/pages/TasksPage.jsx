@@ -18,14 +18,18 @@ function TasksPage() {
     <>
       <Group justify="space-between" mt="md" mb="xs">
         <Text>Study Tasks</Text>
-        <Button onClick={() => setModalOpen(true)}>+ Add Task</Button>
+        <Button color="black" onClick={() => setModalOpen(true)}>
+          + Add Task
+        </Button>
         <AddTask opened={modalOpen} onClose={() => setModalOpen(false)} />
       </Group>
 
       {tasks.length === 0 ? (
         <Text>No tasks found.</Text>
       ) : (
-        tasks.map((task) => <Task key={task.task_id} task={task} taskId={task.task_id} />)
+        tasks.map((task) => (
+          <Task key={task.task_id} task={task} taskId={task.task_id} />
+        ))
       )}
     </>
   );

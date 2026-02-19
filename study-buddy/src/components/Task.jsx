@@ -68,6 +68,7 @@ function Task({ key, task }) {
           <Group spacing="xs">
             <ActionIcon
               variant="subtle"
+              color="black"
               onClick={() => setUpdateOpen(true)}
               disabled={task.completed}
             >
@@ -75,6 +76,7 @@ function Task({ key, task }) {
             </ActionIcon>
             <ActionIcon
               variant="subtle"
+              color="black"
               onClick={() => deleteTask(task.task_id)}
               disabled={task.completed}
             >
@@ -82,6 +84,7 @@ function Task({ key, task }) {
             </ActionIcon>
             <ActionIcon
               variant="subtle"
+              color="black"
               onClick={() => setShowTimer((prev) => !prev)}
               disabled={task.completed}
             >
