@@ -162,6 +162,46 @@ function TaskProvider({ children }) {
     }
   };
 
+  const addStudyTime = async (taskId, secondsToAdd) => {
+    if (!user) return;
+    if (!secondsToAdd || secondsToAdd <= 0) return;
+
+    setTasks((prev) =>
+      prev.map((t) =>
+        t.task_id === taskId
+          ? { ...t, timer_duration: (t.timer_duration || 0) + secondsToAdd }
+          : t
+      )
+    );
+
+
+    try {
+      const { data, error: readErr } = await supabase
+        .from("Tasks")
+        .select("timer_duration")
+        .eq("task_id", taskId)
+        .single();
+
+      if (readErr) {
+        setError(readErr.message);
+        return;
+      }
+
+      const current = data?.timer_duration || 0;
+      const newValue = current + secondsToAdd;
+
+      const { error: updateErr } = await supabase
+        .from("Tasks")
+        .update({ timer_duration: newValue })
+        .eq("task_id", taskId);
+
+      if (updateErr) setError(updateErr.message);
+    } catch (err) {
+      setError(err.message);
+    }
+
+  };
+
   useEffect(() => {
     fetchTasks();
   }, [user]);
@@ -178,6 +218,7 @@ function TaskProvider({ children }) {
           addTask,
           deleteTask,
           updateTask,
+          addStudyTime,
         }}
       >
         {children}

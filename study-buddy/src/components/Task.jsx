@@ -28,6 +28,10 @@ function Task({ key, task }) {
               <Group justify="space-between" mt="md" mb="xs">
                 <Text fw={500}>{task.due_date}</Text>
                 <Text fw={500}>{task.priority}</Text>
+                <Text size="sm" c="dimmed">
+                  Studied: {Math.floor((task.timer_duration / 60 || 0))} min
+                </Text>
+
               </Group>
             </Flex>
           </Flex>
@@ -49,7 +53,7 @@ function Task({ key, task }) {
             </ActionIcon>
           </Group>
         </Flex>
-        {showTimer && <Timer />}
+        {showTimer && <Timer taskId={task.task_id} />}
       </Card>
       <UpdateTask
         opened={updateOpen}
