@@ -5,16 +5,22 @@ import { TaskContext } from "../providers/TaskProvider";
 
 function formatTotalStudyTime(totalSeconds) {
 
-    const mins = Math.floor((totalSeconds) || 0 / 60);
-    const hr = Math.floor(mins / 60);
-    const sec = mins % 60
+    const totalMins = Math.floor(((totalSeconds) || 0) / 60);
+    const hrs = Math.floor(totalMins / 60);
+    const mins = totalMins % 60;
 
-    const hh = hr < 10 ? "0" + hr : "" + hr
+
+    const hh = hrs < 10 ? "0" + hrs : "" + hrs
     const mm = mins < 10 ? "0" + mins : "" + mins;
-    const ss = sec < 10 ? "0" + sec : "" + sec;
 
-    return hh > 0 ? `${hh}h ${mm}m` : `${ss} sec`;
+
+    if (hh > 0) {
+        return `${hh}h ${mm}m`;
+    }
+    return `${mm}m`;
 }
+
+
 
 
 export default function OverViewPage() {
