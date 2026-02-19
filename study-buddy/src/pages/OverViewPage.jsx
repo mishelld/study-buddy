@@ -43,10 +43,25 @@ export default function OverViewPage() {
         0
     );
 
+    function daysUntil(dateStr) {
+        const due = new Date(dateStr);
+        const now = new Date();
+
+        const diffMs = due - now; // milliseconds difference
+        return Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+    }
+
     const upcoming = [...allTasks]
         .filter(t => t.due_date)
         .sort((a, b) => new Date(a.due_date) - new Date(b.due_date))
         .slice(0, 3)
+        .map((t) => (
+            {
+                ...t,
+                daysLeft: daysUntil(t.due_date)
+            }
+        ))
 
     return (
         <Stack gap="md">
@@ -63,6 +78,11 @@ export default function OverViewPage() {
                     <Text c="dimmed" size="sm">Time Studied</Text>
                     <Text fw={700} size="xl">{formatTotalStudyTime(totalStudySeconds)}</Text>
                     <Text c="dimmed" size="xs">Total from task timers</Text>
+                </Card>
+
+                <Card withBorder radius="md" p="md">
+                    <Title order={4} mb="sm">Upcoming Deadlines</Title>
+
                 </Card>
             </SimpleGrid>
         </Stack>
