@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Burger, Container, Group, Button } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import classes from "./HeaderSimple.module.css";
+import "./Navbar.css";
 const links = [
   { link: "/tasks", label: "Tasks" },
   { link: "/Schedue", label: "Schedule" },
