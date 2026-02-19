@@ -1,6 +1,12 @@
 import { useContext, useMemo } from "react";
 import { Card, Group, Text, Title, Stack, Progress, SimpleGrid } from "@mantine/core";
 import { TaskContext } from "../providers/TaskProvider";
+import {
+    IconCheck,
+    IconClock,
+    IconTarget,
+} from "@tabler/icons-react";
+
 
 
 function formatTotalStudyTime(totalSeconds) {
@@ -69,18 +75,21 @@ export default function OverViewPage() {
             <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
 
                 <Card withBorder radius="md" p="md">
+                    <IconCheck size={30} />
                     <Text c="dimmed" size="sm">Tasks Completed</Text>
                     <Text fw={700} size="xl">{completedTasks}/{numOfAllTasks}</Text>
                     <Progress value={completedTasksPortion} mt="sm" />
                 </Card>
 
                 <Card withBorder radius="md" p="md">
+                    <IconClock size={30} />
                     <Text c="dimmed" size="sm">Time Studied</Text>
                     <Text fw={700} size="xl">{formatTotalStudyTime(totalStudySeconds)}</Text>
                     <Text c="dimmed" size="xs">Total from task timers</Text>
                 </Card>
 
                 <Card withBorder radius="md" p="md">
+                    <IconTarget size={30} />
                     <Title order={4} mb="sm">Upcoming Deadlines</Title>
                     {upcoming.length === 0
                         ? <Text c="dimmed">No deadlines yet.</Text>
