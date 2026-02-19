@@ -34,7 +34,7 @@ function Navbar() {
 
   return (
     <header className={`${classes.header} navbar`}>
-      <Container size="md" className={`${classes.inner}`}>
+      <Container size="xl" className={`${classes.inner}`}>
         <Flex justify="space-between" align="center" style={{ width: "100%" }}>
           <Group>{items}</Group>
           <Button color="red" onClick={handleLogout}>
