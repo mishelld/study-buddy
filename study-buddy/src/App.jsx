@@ -14,7 +14,7 @@ import ScheduePage from "./pages/ScheduePage";
 import Navbar from "./components/Navbar";
 import OverViewPage from "./pages/OverViewPage";
 import GifProvider from "./providers/GifProvider";
-
+import HeroPage from "./pages/HeroPage";
 function App() {
   return (
     <BrowserRouter>
@@ -25,7 +25,8 @@ function App() {
             <TaskProvider>
               <GifProvider>
                 <Routes>
-                  <Route path="/" element={<LoginPage />} />
+                  <Route path="/" element={<HeroPage />} />
+                  <Route path="/login" element={<LoginPage />} />
                   <Route
                     path="/tasks"
                     element={
