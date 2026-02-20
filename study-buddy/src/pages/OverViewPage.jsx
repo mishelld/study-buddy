@@ -1,120 +1,136 @@
 import { useContext, useMemo } from "react";
-import { Card, Group, Text, Title, Stack, Progress, SimpleGrid } from "@mantine/core";
-import { TaskContext } from "../providers/TaskProvider";
 import {
-    IconCheck,
-    IconClock,
-    IconTarget,
-} from "@tabler/icons-react";
+  Card,
+  Group,
+  Text,
+  Title,
+  Stack,
+  Progress,
+  SimpleGrid,
+  Image,
+} from "@mantine/core";
+import { TaskContext } from "../providers/TaskProvider";
+import { GifContext } from "../providers/GifProvider";
 
-
+import { IconCheck, IconClock, IconTarget } from "@tabler/icons-react";
 
 function formatTotalStudyTime(totalSeconds) {
+  //time studied
+  const totalMins = Math.floor((totalSeconds || 0) / 60);
+  const hrs = Math.floor(totalMins / 60);
+  const mins = totalMins % 60;
 
-    //time studied
-    const totalMins = Math.floor(((totalSeconds) || 0) / 60);
-    const hrs = Math.floor(totalMins / 60);
-    const mins = totalMins % 60;
+  const hh = hrs < 10 ? "0" + hrs : "" + hrs;
+  const mm = mins < 10 ? "0" + mins : "" + mins;
 
+  if (hh > 0) {
+    return `${hh}hrs ${mm} mins`;
+  }
+  return `${mm} mins`;
 
-    const hh = hrs < 10 ? "0" + hrs : "" + hrs
-    const mm = mins < 10 ? "0" + mins : "" + mins;
-
-
-    if (hh > 0) {
-        return `${hh}hrs ${mm} mins`;
-    }
-    return `${mm} mins`;
-
-    //tasks completed
-
+  //tasks completed
 }
 
-
-
-
 export default function OverViewPage() {
-    const { tasks, loading, error } = useContext(TaskContext);
+  const { tasks } = useContext(TaskContext);
+  const { gif, loading } = useContext(GifContext);
 
-    const allTasks = tasks || [];
+  const allTasks = tasks || [];
 
-    const numOfAllTasks = allTasks.length
-    const completedTasks = allTasks.filter((t) => t.completed).length;
-    const completedTasksPortion = numOfAllTasks === 0 ? 0 : (completedTasks / numOfAllTasks) * 100;
+  const numOfAllTasks = allTasks.length;
+  const completedTasks = allTasks.filter((t) => t.completed).length;
+  const completedTasksPortion =
+    numOfAllTasks === 0 ? 0 : (completedTasks / numOfAllTasks) * 100;
 
+  const totalStudySeconds = allTasks.reduce(
+    (sum, t) => sum + (t.timer_duration || 0),
+    0,
+  );
 
+  function daysUntil(dateStr) {
+    const due = new Date(dateStr);
+    const now = new Date();
 
-    const totalStudySeconds = allTasks.reduce(
-        (sum, t) => sum + (t.timer_duration || 0),
-        0
-    );
+    const diffMs = due - now; // milliseconds difference
+    return Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+  }
 
-    function daysUntil(dateStr) {
-        const due = new Date(dateStr);
-        const now = new Date();
+  const upcoming = [...allTasks]
+    .filter((t) => t.due_date)
+    .sort((a, b) => new Date(a.due_date) - new Date(b.due_date))
+    .slice(0, 3)
+    .map((t) => ({
+      ...t,
+      daysLeft: daysUntil(t.due_date),
+    }));
 
-        const diffMs = due - now; // milliseconds difference
-        return Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+  return (
+    <Stack gap="md">
+      <Title order={2}>Progress Overview</Title>
+      <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+        <Card withBorder radius="md" p="md">
+          <IconCheck size={30} color="#2f9e44" />
+          <Text c="dimmed" size="sm">
+            Tasks Completed
+          </Text>
+          <Text fw={700} size="xl">
+            {completedTasks}/{numOfAllTasks}
+          </Text>
+          <Progress value={completedTasksPortion} mt="sm" />
+        </Card>
 
-    }
+        <Card withBorder radius="md" p="md">
+          <IconClock size={30} bg="#E7F5FF" color="#1C7ED6" />
+          <Text c="dimmed" size="sm">
+            Time Studied
+          </Text>
+          <Text fw={700} size="xl">
+            {formatTotalStudyTime(totalStudySeconds)}
+          </Text>
+          <Text c="dimmed" size="xs">
+            Total from task timers
+          </Text>
+        </Card>
 
-    const upcoming = [...allTasks]
-        .filter(t => t.due_date)
-        .sort((a, b) => new Date(a.due_date) - new Date(b.due_date))
-        .slice(0, 3)
-        .map((t) => (
-            {
-                ...t,
-                daysLeft: daysUntil(t.due_date)
-            }
-        ))
+        <Card withBorder radius="md" p="md">
+          <IconTarget size={30} bg="#F3F0FF" color="#7048E8" />
+          <Title order={4} mb="sm">
+            Upcoming Deadlines
+          </Title>
+          {upcoming.length === 0 ? (
+            <Text c="dimmed">No deadlines yet.</Text>
+          ) : (
+            <Stack gap="sm">
+              {upcoming.map((t) => (
+                <Card key={t.task_id} withBorder radius="md" p="sm">
+                  <Group justify="space-between" align="flex-start">
+                    <div>
+                      <Text fw={600}>{t.title}</Text>
+                      <Text size="sm" c="dimmed">
+                        Due: {t.due_date}
+                      </Text>
+                    </div>
 
-    return (
-        <Stack gap="md">
-            <Title order={2}>Progress Overview</Title>
-            <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
-
-                <Card withBorder radius="md" p="md">
-                    <IconCheck size={30} color="#2f9e44" />
-                    <Text c="dimmed" size="sm">Tasks Completed</Text>
-                    <Text fw={700} size="xl">{completedTasks}/{numOfAllTasks}</Text>
-                    <Progress value={completedTasksPortion} mt="sm" />
+                    <Text fw={700} c={t.daysLeft < 0 ? "red" : "dimmed"}>
+                      {t.daysLeft} days
+                    </Text>
+                  </Group>
                 </Card>
-
-                <Card withBorder radius="md" p="md">
-                    <IconClock size={30} bg="#E7F5FF" color="#1C7ED6" />
-                    <Text c="dimmed" size="sm">Time Studied</Text>
-                    <Text fw={700} size="xl">{formatTotalStudyTime(totalStudySeconds)}</Text>
-                    <Text c="dimmed" size="xs">Total from task timers</Text>
-                </Card>
-
-                <Card withBorder radius="md" p="md">
-                    <IconTarget size={30} bg="#F3F0FF" color="#7048E8" />
-                    <Title order={4} mb="sm">Upcoming Deadlines</Title>
-                    {upcoming.length === 0
-                        ? <Text c="dimmed">No deadlines yet.</Text>
-                        : (<Stack gap="sm">
-                            {upcoming.map((t) => (
-                                <Card key={t.task_id} withBorder radius="md" p="sm">
-                                    <Group justify="space-between" align="flex-start">
-                                        <div>
-                                            <Text fw={600}>{t.title}</Text>
-                                            <Text size="sm" c="dimmed">Due: {t.due_date}</Text>
-                                        </div>
-
-                                        <Text fw={700} c={t.daysLeft < 0 ? "red" : "dimmed"}>
-                                            {t.daysLeft} days
-                                        </Text>
-                                    </Group>
-                                </Card>
-                            ))}
-                        </Stack>)}
-
-                </Card>
-            </SimpleGrid>
-        </Stack>
-
-    )
-
-
+              ))}
+            </Stack>
+          )}
+        </Card>
+      </SimpleGrid>{" "}
+      <Card shadow="sm" padding="lg">
+        {gif && !loading && (
+          <Image
+            src={gif.images.fixed_height.url}
+            alt={gif.title}
+            radius="sm"
+            mb="sm"
+          />
+        )}
+      </Card>
+    </Stack>
+  );
 }

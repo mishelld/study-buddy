@@ -13,6 +13,7 @@ import TaskProvider from "./providers/TaskProvider";
 import ScheduePage from "./pages/ScheduePage";
 import Navbar from "./components/Navbar";
 import OverViewPage from "./pages/OverViewPage";
+import GifProvider from "./providers/GifProvider";
 
 function App() {
   return (
@@ -22,40 +23,42 @@ function App() {
           {" "}
           <AuthProvider onAuthReady={() => {}}>
             <TaskProvider>
-              <Routes>
-                <Route path="/" element={<LoginPage />} />
-                <Route
-                  path="/tasks"
-                  element={
-                    <>
-                      <MainLayout>
-                        <TasksPage />
-                      </MainLayout>
-                    </>
-                  }
-                />
+              <GifProvider>
+                <Routes>
+                  <Route path="/" element={<LoginPage />} />
+                  <Route
+                    path="/tasks"
+                    element={
+                      <>
+                        <MainLayout>
+                          <TasksPage />
+                        </MainLayout>
+                      </>
+                    }
+                  />
 
-                <Route
-                  path="/schedue"
-                  element={
-                    <>
-                      <MainLayout>
-                        <ScheduePage />
-                      </MainLayout>
-                    </>
-                  }
-                />
-                <Route
-                  path="/overview"
-                  element={
-                    <>
-                      <MainLayout>
-                        <OverViewPage />
-                      </MainLayout>
-                    </>
-                  }
-                />
-              </Routes>
+                  <Route
+                    path="/schedue"
+                    element={
+                      <>
+                        <MainLayout>
+                          <ScheduePage />
+                        </MainLayout>
+                      </>
+                    }
+                  />
+                  <Route
+                    path="/overview"
+                    element={
+                      <>
+                        <MainLayout>
+                          <OverViewPage />
+                        </MainLayout>
+                      </>
+                    }
+                  />
+                </Routes>
+              </GifProvider>
             </TaskProvider>
           </AuthProvider>
         </DatesProvider>

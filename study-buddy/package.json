@@ -16,6 +16,7 @@
     "@mantine/schedule": "^9.0.0-alpha.1",
     "@supabase/supabase-js": "^2.96.0",
     "@tabler/icons-react": "^3.36.1",
+    "axios": "^1.13.5",
     "dayjs": "^1.11.19",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
