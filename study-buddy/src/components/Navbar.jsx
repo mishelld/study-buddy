@@ -1,5 +1,5 @@
 import { IconBrandMessenger } from "@tabler/icons-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { AuthContext } from "../providers/AuthProvider";
 import { useContext } from "react";
 import { useState } from "react";
@@ -10,26 +10,20 @@ import "./Navbar.css";
 const links = [
   { link: "/tasks", label: "Tasks" },
   { link: "/Schedue", label: "Schedule" },
-  { link: "/overview", label: "Overview" }
+  { link: "/overview", label: "Overview" },
 ];
-
-
 
 function Navbar() {
   const { handleLogout } = useContext(AuthContext);
-
-  const [opened, { toggle }] = useDisclosure(false);
-  const [active, setActive] = useState(links[0].link);
+  const location = useLocation();
+  const activePath = location.pathname;
 
   const items = links.map((link) => (
     <Link
       key={link.label}
       to={link.link}
       className={classes.link}
-      data-active={active === link.link || undefined}
-      onClick={(event) => {
-        setActive(link.link);
-      }}
+      data-active={activePath === link.link || undefined}
     >
       {link.label}
     </Link>
