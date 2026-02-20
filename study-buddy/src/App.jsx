@@ -20,7 +20,7 @@ function App() {
       <MantineProvider withGlobalStyles wit hNormalizeCSS>
         <DatesProvider>
           {" "}
-          <AuthProvider onAuthReady={() => { }}>
+          <AuthProvider onAuthReady={() => {}}>
             <TaskProvider>
               <Routes>
                 <Route path="/" element={<LoginPage />} />
@@ -49,8 +49,9 @@ function App() {
                   path="/overview"
                   element={
                     <>
-                      <Navbar />
-                      <OverViewPage />
+                      <MainLayout>
+                        <OverViewPage />
+                      </MainLayout>
                     </>
                   }
                 />
