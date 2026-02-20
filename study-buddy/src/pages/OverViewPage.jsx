@@ -13,6 +13,7 @@ import {
 } from "@mantine/core";
 import { TaskContext } from "../providers/TaskProvider";
 import { GifContext } from "../providers/GifProvider";
+import LoadingPage from "./LoadingPage";
 
 import { IconCircleCheck, IconClock, IconTarget } from "@tabler/icons-react";
 
@@ -65,6 +66,8 @@ export default function OverViewPage() {
       ...t,
       daysLeft: daysUntil(t.due_date),
     }));
+
+  if (loading) return <LoadingPage />;
 
   return (
     <Stack gap="md">

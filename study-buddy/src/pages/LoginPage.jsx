@@ -45,6 +45,7 @@ function LoginPage() {
             fullWidth
             mt="xl"
             radius="md"
+            color="violet"
             onClick={() => handleLogin(email, password)}
           >
             Sign in
