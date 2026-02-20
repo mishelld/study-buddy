@@ -3,59 +3,28 @@ import { DatePickerInput } from "@mantine/dates";
 import { useState, useContext } from "react";
 import { AuthContext } from "../providers/AuthProvider";
 import { TaskContext } from "../providers/TaskProvider";
+import TaskForm from "./TaskForm";
+
 function AddTask({ opened, onClose }) {
-  const [taskName, setTaskName] = useState("");
-  const [priority, setPriority] = useState("");
-  const [dueDate, setDueDate] = useState(null);
   const { addTask } = useContext(TaskContext);
 
-  const handleAdd = async () => {
+  const handleAdd = async (values) => {
     await addTask({
-      title: taskName,
-      priority,
-      due_date: dueDate,
+      title: values.taskName,
+      priority: values.priority,
+      due_date: values.dueDate,
     });
-    setTaskName("");
-    setPriority("");
-    setDueDate(null);
     onClose();
   };
 
   return (
     <Modal opened={opened} onClose={onClose} title="Add Task" withinPortal>
-      <TextInput
-        label="Task Name"
-        placeholder="Enter task name"
-        value={taskName}
-        onChange={(e) => setTaskName(e.currentTarget.value)}
-        mb="sm"
-        required
+      <TaskForm
+        initialValues={{ taskName: "", priority: "", dueDate: null }}
+        onSubmit={handleAdd}
+        onCancel={onClose}
+        submitText="Add Task"
       />
-      <Select
-        label="Priority"
-        placeholder="Select priority"
-        data={["Low", "Medium", "High"]}
-        value={priority}
-        onChange={setPriority}
-        mb="sm"
-        required
-      />
-      <DatePickerInput
-        label="Due Date"
-        placeholder="dd/mm/yyyy"
-        value={dueDate}
-        onChange={setDueDate}
-        mb="sm"
-        required
-      />
-      <Group position="right" mt="md">
-        <Button variant="default" onClick={onClose}>
-          Cancel
-        </Button>
-        <Button onClick={handleAdd} color="black">
-          Add Task
-        </Button>
-      </Group>
     </Modal>
   );
 }
