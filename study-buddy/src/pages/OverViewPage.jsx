@@ -8,11 +8,13 @@ import {
   Progress,
   SimpleGrid,
   Image,
+  Flex,
+  ActionIcon,
 } from "@mantine/core";
 import { TaskContext } from "../providers/TaskProvider";
 import { GifContext } from "../providers/GifProvider";
 
-import { IconCheck, IconClock, IconTarget } from "@tabler/icons-react";
+import { IconCircleCheck, IconClock, IconTarget } from "@tabler/icons-react";
 
 function formatTotalStudyTime(totalSeconds) {
   //time studied
@@ -67,70 +69,101 @@ export default function OverViewPage() {
   return (
     <Stack gap="md">
       <Title order={2}>Progress Overview</Title>
-      <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
-        <Card withBorder radius="md" p="md">
-          <IconCheck size={30} color="#2f9e44" />
-          <Text c="dimmed" size="sm">
-            Tasks Completed
-          </Text>
-          <Text fw={700} size="xl">
-            {completedTasks}/{numOfAllTasks}
-          </Text>
-          <Progress value={completedTasksPortion} mt="sm" />
-        </Card>
+      <Flex gap="md" direction={{ base: "column-reverse", sm: "row" }}>
+        <Flex direction="column" gap="md" style={{ flex: 1 }}>
+          <Flex
+            justify="center"
+            gap="md"
+            direction={{ base: "column", sm: "row" }}
+          >
+            <Card withBorder radius="md" p="md" style={{ flex: 1 }}>
+              <Flex align="center" gap="md">
+                <ActionIcon variant="filled" color="#c9efffff" size="xl">
+                  <IconCircleCheck size={30} color="#1C7ED6" />
+                </ActionIcon>
+                <Flex direction="column">
+                  <Text c="dimmed" size="sm">
+                    Tasks Completed
+                  </Text>
+                  <Text fw={700} size="xl">
+                    {completedTasks}/{numOfAllTasks}
+                  </Text>
+                </Flex>
+              </Flex>
 
-        <Card withBorder radius="md" p="md">
-          <IconClock size={30} bg="#E7F5FF" color="#1C7ED6" />
-          <Text c="dimmed" size="sm">
-            Time Studied
-          </Text>
-          <Text fw={700} size="xl">
-            {formatTotalStudyTime(totalStudySeconds)}
-          </Text>
-          <Text c="dimmed" size="xs">
-            Total from task timers
-          </Text>
-        </Card>
+              <Progress
+                color="rgba(0, 0, 0, 1)"
+                value={completedTasksPortion}
+                mt="sm"
+              />
+            </Card>
 
-        <Card withBorder radius="md" p="md">
-          <IconTarget size={30} bg="#F3F0FF" color="#7048E8" />
-          <Title order={4} mb="sm">
-            Upcoming Deadlines
-          </Title>
-          {upcoming.length === 0 ? (
-            <Text c="dimmed">No deadlines yet.</Text>
-          ) : (
-            <Stack gap="sm">
-              {upcoming.map((t) => (
-                <Card key={t.task_id} withBorder radius="md" p="sm">
-                  <Group justify="space-between" align="flex-start">
-                    <div>
-                      <Text fw={600}>{t.title}</Text>
-                      <Text size="sm" c="dimmed">
-                        Due: {t.due_date}
-                      </Text>
-                    </div>
+            <Card withBorder radius="md" p="md" style={{ flex: 1 }}>
+              <Flex align="center" gap="md">
+                <ActionIcon variant="filled" color="#dafce7ff" size="xl">
+                  <IconClock size={30} color="#009d34ff" />
+                </ActionIcon>
+                <Flex direction="column">
+                  <Text c="dimmed" size="sm">
+                    Time Studied
+                  </Text>
+                  <Text fw={700} size="xl">
+                    {formatTotalStudyTime(totalStudySeconds)}
+                  </Text>
+                </Flex>
+              </Flex>
+              <Text c="dimmed" size="xs">
+                Total from task timers
+              </Text>
+            </Card>
+          </Flex>
+          <Card withBorder radius="md" p="md" mb="md">
+            <Stack gap="md">
+              <Flex align="center" gap="md">
+                <ActionIcon variant="filled" color="#ece6ffff" size="xl">
+                  <IconTarget size={30} bg="#F3F0FF" color="#7048E8" />
+                </ActionIcon>
+                <Title order={4} mb="sm">
+                  Upcoming Deadlines
+                </Title>
+              </Flex>
 
-                    <Text fw={700} c={t.daysLeft < 0 ? "red" : "dimmed"}>
-                      {t.daysLeft} days
-                    </Text>
-                  </Group>
-                </Card>
-              ))}
+              {upcoming.length === 0 ? (
+                <Text c="dimmed">No deadlines yet.</Text>
+              ) : (
+                <Stack gap="sm">
+                  {upcoming.map((t) => (
+                    <Card key={t.task_id} withBorder radius="md" p="sm">
+                      <Group justify="space-between" align="flex-start">
+                        <Stack gap={2}>
+                          <Text fw={600}>{t.title}</Text>
+                          <Text size="sm" c="dimmed">
+                            Due: {t.due_date}
+                          </Text>
+                        </Stack>
+
+                        <Text fw={700} c={t.daysLeft < 0 ? "red" : "dimmed"}>
+                          {t.daysLeft} days
+                        </Text>
+                      </Group>
+                    </Card>
+                  ))}
+                </Stack>
+              )}
             </Stack>
+          </Card>
+        </Flex>
+        <Card shadow="sm" padding="lg" style={{ flex: 1 }}>
+          {gif && !loading && (
+            <Image
+              src={gif.images.fixed_height.url}
+              alt={gif.title}
+              radius="sm"
+              mb="sm"
+            />
           )}
         </Card>
-      </SimpleGrid>{" "}
-      <Card shadow="sm" padding="lg">
-        {gif && !loading && (
-          <Image
-            src={gif.images.fixed_height.url}
-            alt={gif.title}
-            radius="sm"
-            mb="sm"
-          />
-        )}
-      </Card>
+      </Flex>
     </Stack>
   );
 }
