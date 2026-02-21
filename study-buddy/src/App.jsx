@@ -15,52 +15,64 @@ import Navbar from "./components/Navbar";
 import OverViewPage from "./pages/OverViewPage";
 import GifProvider from "./providers/GifProvider";
 import HeroPage from "./pages/HeroPage";
+import ProtectedRoute from "./auth/ProtectedRoute";
+import { useState } from "react";
 function App() {
+  const [isAuthReady, setAuthReady] = useState(false);
+
   return (
     <BrowserRouter>
       <MantineProvider withGlobalStyles wit hNormalizeCSS>
         <DatesProvider>
           {" "}
-          <AuthProvider onAuthReady={() => {}}>
-            <TaskProvider>
-              <GifProvider>
-                <Routes>
-                  <Route path="/" element={<HeroPage />} />
-                  <Route path="/login" element={<LoginPage />} />
-                  <Route
-                    path="/tasks"
-                    element={
-                      <>
-                        <MainLayout>
-                          <TasksPage />
-                        </MainLayout>
-                      </>
-                    }
-                  />
+          <AuthProvider onAuthReady={() => setAuthReady(true)}>
+            {isAuthReady && (
+              <TaskProvider>
+                <GifProvider>
+                  <Routes>
+                    <Route path="/" element={<HeroPage />} />
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route
+                      path="/tasks"
+                      element={
+                        <>
+                          <ProtectedRoute>
+                            <MainLayout>
+                              <TasksPage />
+                            </MainLayout>
+                          </ProtectedRoute>
+                        </>
+                      }
+                    />
 
-                  <Route
-                    path="/schedue"
-                    element={
-                      <>
-                        <MainLayout>
-                          <ScheduePage />
-                        </MainLayout>
-                      </>
-                    }
-                  />
-                  <Route
-                    path="/overview"
-                    element={
-                      <>
-                        <MainLayout>
-                          <OverViewPage />
-                        </MainLayout>
-                      </>
-                    }
-                  />
-                </Routes>
-              </GifProvider>
-            </TaskProvider>
+                    <Route
+                      path="/schedue"
+                      element={
+                        <>
+                          <ProtectedRoute>
+                            <MainLayout>
+                              <ScheduePage />
+                            </MainLayout>
+                          </ProtectedRoute>
+                        </>
+                      }
+                    />
+                    <Route
+                      path="/overview"
+                      element={
+                        <>
+                          <ProtectedRoute>
+                            <MainLayout>
+                              <OverViewPage />
+                            </MainLayout>
+                          </ProtectedRoute>
+                        </>
+                      }
+                    />
+                  </Routes>
+                </GifProvider>
+              </TaskProvider>
+            )}
           </AuthProvider>
         </DatesProvider>
       </MantineProvider>

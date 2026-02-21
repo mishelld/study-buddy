@@ -12,23 +12,17 @@ function AuthProvider({ onAuthReady, children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const checkSession = async () => {
-      setLoading(true);
+    fetchActiveUser();
+
+    async function fetchActiveUser() {
       try {
-        const {
-          data: { session },
-        } = await supabase.auth.getSession();
-        setUser(session?.user ?? null);
-      } catch (error) {
-        setError(error.message);
+        const { data } = await supabase.auth.getUser();
+        setUser(data.user);
       } finally {
         onAuthReady();
-        setLoading(false);
       }
-    };
-
-    checkSession();
-  }, [navigate]);
+    }
+  }, []);
 
   const handleLogin = async (email, password) => {
     setLoading(true);
