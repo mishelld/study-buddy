@@ -29,7 +29,6 @@ function GifProvider({ children }) {
 
         const response = await axios
           .get
-          // `https://api.giphy.com/v1/gifs/random?api_key=${API_KEY}&tag=pudgypenguins-${randomTag}&rating=g`,
           // ` https://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=pudgypenguins-work-hard&limit=1&offset=0&rating=g`,
           ();
         setGif(response.data.data);

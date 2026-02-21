@@ -20,11 +20,11 @@ function HeroPage() {
       <div className={classes.inner}>
         <div className={classes.content}>
           <Title className={classes.title}>
-            StudyMate <br />
+            Study Buddy <br />
           </Title>
           <Text c="dimmed" mt="md">
-            StudyMate helps students organize study tasks, monitor progress, and
-            stay productive using a Focus Timer and task tracking.
+            Study Buddy helps students organize study tasks, monitor progress,
+            and stay productive using a Focus Timer and task tracking.
           </Text>
 
           <List
