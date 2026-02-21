@@ -100,8 +100,9 @@ function TaskProvider({ children }) {
     if (!user) return;
 
     setError(null);
-
+    const tempId = crypto.randomUUID();
     const newTask = {
+      task_id: tempId,
       title,
       priority: [priority],
       due_date,
@@ -120,15 +121,13 @@ function TaskProvider({ children }) {
         .select();
 
       if (supabaseError) {
-        setTasks((prev) => prev.filter((task) => task !== newTask));
+        setTasks((prev) => prev.filter((t) => t.task_id !== tempId));
         setError(supabaseError.message);
         return;
       }
-      setTasks((prev) =>
-        prev.map((task) => (task === newTask ? data[0] : task)),
-      );
+      setTasks((prev) => prev.map((t) => (t.task_id === tempId ? data[0] : t)));
     } catch (err) {
-      setTasks((prev) => prev.filter((task) => task !== newTask));
+      setTasks((prev) => prev.filter((t) => t.task_id !== tempId));
       setError(err.message);
     }
   };

@@ -22,17 +22,16 @@ function GifProvider({ children }) {
           "you-got-this",
           "rooting-for-you",
           "learn",
-          "team-squad-huddle",
           "study",
         ];
 
         const randomTag = tags[Math.floor(Math.random() * tags.length)];
 
-        // const response = await axios.get(
-        //   // `https://api.giphy.com/v1/gifs/${GIF_ID}?api_key=${API_KEY}`,
-        //   // `https://api.giphy.com/v1/gifs/random?api_key=${API_KEY}&tag=pudgypenguins-${randomTag}&rating=g`,
-        //   ` https://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=pudgypenguins-work-hard&limit=1&offset=0&rating=g`,
-        // );
+        const response = await axios
+          .get
+          // `https://api.giphy.com/v1/gifs/random?api_key=${API_KEY}&tag=pudgypenguins-${randomTag}&rating=g`,
+          // ` https://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=pudgypenguins-work-hard&limit=1&offset=0&rating=g`,
+          ();
         setGif(response.data.data);
       } catch (error) {
         console.log(error.message);
