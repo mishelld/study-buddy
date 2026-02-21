@@ -193,7 +193,7 @@ function TaskProvider({ children }) {
   const addStudyTime = async (taskId, secondsToAdd) => {
     if (!user) return;
     if (!secondsToAdd || secondsToAdd <= 0) return;
-
+    const prevTasks = tasks;
     setTasks((prev) =>
       prev.map((t) =>
         t.task_id === taskId
@@ -210,6 +210,7 @@ function TaskProvider({ children }) {
         .single();
 
       if (readErr) {
+        setTasks(prevTasks);
         setError(readErr.message);
         return;
       }
@@ -222,8 +223,12 @@ function TaskProvider({ children }) {
         .update({ timer_duration: newValue })
         .eq("task_id", taskId);
 
-      if (updateErr) setError(updateErr.message);
+      if (updateErr) {
+        setTasks(prevTasks);
+        setError(updateErr.message);
+      }
     } catch (err) {
+      setTasks(prevTasks);
       setError(err.message);
     }
   };
