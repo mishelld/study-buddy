@@ -27,9 +27,9 @@ function formatTotalStudyTime(totalSeconds) {
   const mm = mins < 10 ? "0" + mins : "" + mins;
 
   if (hh > 0) {
-    return `${hh}hrs ${mm} mins`;
+    return `${hh}hrs ${mm}mins`;
   }
-  return `${mm} mins`;
+  return `${mm}mins`;
 
   //tasks completed
 }
