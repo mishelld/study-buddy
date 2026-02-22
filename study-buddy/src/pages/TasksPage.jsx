@@ -12,7 +12,7 @@ function TasksPage() {
   const { tasks, loading, error } = useContext(TaskContext);
 
   if (loading) return <LoadingPage />;
-  if (error) return <ErrorPage />;
+  if (error) return <ErrorPage message={error} />;
 
   return (
     <>
