@@ -34,7 +34,8 @@ function ScheduePage() {
   }));
 
   return (
-    <Box style={{ width: "100%", height: 500 }}>
+    <Box 
+    style={{ width: "100%", height: 500 }}>
       {isMobile ? (
         <MobileMonthView
           date={date}
