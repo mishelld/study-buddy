@@ -7,6 +7,8 @@ import { Burger, Container, Group, Button, Flex } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import classes from "./HeaderSimple.module.css";
 import "./Navbar.css";
+const BASE_PATH = "/study-buddy";
+
 const links = [
   { link: "/tasks", label: "Tasks" },
   { link: "/Schedue", label: "Schedule" },
@@ -16,7 +18,7 @@ const links = [
 function Navbar() {
   const { handleLogout } = useContext(AuthContext);
   const location = useLocation();
-  const activePath = location.pathname;
+  const activePath = location.pathname.replace(BASE_PATH, "");
 
   const items = links.map((link) => (
     <Link

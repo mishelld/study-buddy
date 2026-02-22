@@ -19,9 +19,9 @@ import ProtectedRoute from "./auth/ProtectedRoute";
 import { useState } from "react";
 function App() {
   const [isAuthReady, setAuthReady] = useState(false);
-
+  const BASE_PATH = "/study-buddy";
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={BASE_PATH}>
       <MantineProvider withGlobalStyles withNormalizeCSS>
         <DatesProvider>
           {" "}
