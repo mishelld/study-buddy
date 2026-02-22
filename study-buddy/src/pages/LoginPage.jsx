@@ -11,11 +11,14 @@ import {
 } from "@mantine/core";
 import classes from "./AuthenticationTitle.module.css";
 import { useState, useContext } from "react";
-
+import LoadingPage from "./LoadingPage";
+import ErrorPage from "./ErrorPage";
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { handleLogin } = useContext(AuthContext);
+  const { handleLogin, error } = useContext(AuthContext);
+
+  if (error) return <ErrorPage message={error} />;
 
   return (
     <>
