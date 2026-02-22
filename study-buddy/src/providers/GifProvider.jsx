@@ -13,8 +13,10 @@ function GifProvider({ children }) {
     const fetchGif = async () => {
       try {
         setLoading(true);
-
+        //1
         const API_KEY = "GvQpo8X25YBMeAkT6uVlsHiBAyGXQYcu";
+        //2
+        // const API_KEY = "xfwVZOidsfmu40pXUukQKZ8cMDZQ5fCW";
         const GIF_ID = "FUx8YWh8ZYQfZxQaLA";
         const tags = [
           "you-can-do-it",
@@ -27,11 +29,11 @@ function GifProvider({ children }) {
 
         const randomTag = tags[Math.floor(Math.random() * tags.length)];
 
-        const response = await axios
-          .get
-          // `https://api.giphy.com/v1/gifs/random?api_key=${API_KEY}&tag=pudgypenguins-${randomTag}&rating=g`,
-          ();
-        setGif(response.data.data);
+        const response = await axios.get(
+          `https://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=pudgypenguins-${randomTag}&limit=1&rating=g`,
+        );
+
+        setGif(response.data.data[0]);
       } catch (error) {
         console.log(error.message);
       } finally {
