@@ -22,7 +22,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <MantineProvider withGlobalStyles wit hNormalizeCSS>
+      <MantineProvider withGlobalStyles withNormalizeCSS>
         <DatesProvider>
           {" "}
           <AuthProvider onAuthReady={() => setAuthReady(true)}>
